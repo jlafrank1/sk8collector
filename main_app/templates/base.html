@@ -1,0 +1,55 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>sk8collector</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!-- bootstrap -->
+  <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous"> -->
+  <!-- jquery script -->
+  <script type = "text/javascript" src = "https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <!-- materialize -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <!-- google font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap" rel="stylesheet">
+  <!-- static css -->
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+  <header class="navbar-fixed">
+    <nav class="teal darken-2" id="sticky">
+      <div class="nav-wrapper">
+        <ul>
+          <li><a href="{% url 'home' %}" class="left brand-logo">&nbsp;&nbsp;sk8collector</a></li>
+        </ul>
+        <ul class="right">
+          <li><a href="{% url 'about' %}">about</a></li>
+          {% if user.is_authenticated %}
+          <li><a href="{% url 'skate_create'%}">add sk8</a></li>
+          <li><a href="{% url 'skates' %}">view sk8s</a></li>
+          <li><a href="{% url 'place_create' %}">add sk8 place</a></li>
+          <li><a href="{% url 'place_list' %}">sk8 placess</a></li>
+          <li><a href="{% url 'logout' %}">Log Out</a></li>
+          {% else %}
+          <li><a href="{% url 'signup' %}">Sign up </a></li>
+          <li><a href="{% url 'login' %}">Login</a></li>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+  </header>
+  <main class="container">
+    {% block content %}
+    {% endblock %}
+  </main>
+  <footer class="page-footer teal darken-2" id="sticky">
+    <div class="right">All Rights Reserved, &copy; 2021 sk8collector &nbsp;</div>
+  </footer>
+</body>
+</html>

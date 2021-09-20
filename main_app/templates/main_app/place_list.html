@@ -1,0 +1,26 @@
+{% extends 'base.html' %} {% block content %}
+<h1>Place List</h1>
+<div class="row">
+{% for place in place_list%}
+  <div class="col s12 m6 l6">
+    <!-- <a href="{% url 'place_detail' place.id %}"> -->
+      <div class="card">
+        <div class="card-content">
+          <h4>{{place.name}}</h4>
+          <table class="striped">
+            <tr><td><strong>Address:</strong></td> <td>{{place.address}}</td></tr>
+            <tr><td><strong>Has Ramps:</strong></td> <td>{{place.has_ramps}}</td></tr>
+            <tr><td><strong>Description:</strong></td> <td>{{place.description}}</td></tr>
+          </table>
+        </div>
+        <div class="card-action">
+          <a href="{% url 'place_update' place.id %}">Edit</a>
+          <a href="{% url 'place_delete' place.id %}">Delete</a>
+        </div>
+      </div>
+    <!-- </a> -->
+  </div>
+
+{% endfor %}
+</div>
+{% endblock %}

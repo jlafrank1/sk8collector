@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Skate List</h1>
+<div class="row">
+{% for skate in skates %}
+  <div class="col s12 m6 l6">
+    <div class="card">
+      <!-- links to detail -->
+      <a href="{% url 'detail' skate.id %}">
+        <div class="card-content">
+          <h4>{{ skate.nickname }}</h4>
+          <table class="striped">
+            <tr><td>Brand:</td> <td>{{ skate.brand }}</td></tr>
+            <tr><td>Style:</td> <td>{{ skate.style }}</td></tr>
+            <tr><td>Color:</td> <td>{{ skate.color }}</td></tr>
+            <tr><td>Plates:</td> <td>{{ skate.plates }}</td></tr>
+            <tr><td>Toe stops:</td> <td>{{ skate.stops }}</td></tr>
+            <tr><td>Wheels:</td> <td>{{ skate.wheels }}</td></tr>
+            <tr><td>Bearings:</td> <td>{{ skate.bearings }}</td></tr>
+            <tr><td>Cushions:</td> <td>{{ skate.cushions }}</td></tr>
+            <tr><td>Slides:</td> <td>{{ skate.slides }}</td></tr>
+          </table>
+        </div>
+      </a>
+    </div>
+  </div>
+  
+{% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,164 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="row"><h1>Skate Details</h1></div>
+<div class="row">
+  <div class="col s12 m5 l4" id="s8-info-and-photo">
+    <!-- skate info card -->
+    <div class="card teal lighten-3">
+      <div class="card-content">
+        <h5>{{ skate.nickname }}</h5>
+        <table>
+          <tr><td><strong>Brand:</strong></td> <td>{{ skate.brand }}</td></tr>
+          <tr><td><strong>Style:</strong></td> <td>{{ skate.style }}</td></tr>
+          <tr><td><strong>Color:</strong></td> <td>{{ skate.color }}</td></tr>
+          <tr><td><strong>Plates:</strong></td> <td>{{ skate.plates }}</td></tr>
+          <tr><td><strong>Toe stops:</strong></td> <td>{{ skate.stops }}</td></tr>
+          <tr><td><strong>Wheels:</strong></td> <td>{{ skate.wheels }}</td></tr>
+          <tr><td><strong>Bearings:</strong></td> <td>{{ skate.bearings }}</td></tr>
+          <tr><td><strong>Cushions:</strong></td> <td>{{ skate.cushions }}</td></tr>
+          <tr><td><strong>Slides:</strong></td> <td>{{ skate.slides }}</td></tr>
+        </table>
+      </div>
+      <div class="card-action">
+        <a href="{% url 'skate_update' skate.id %}" class="text-black">Edit</a>
+        <a href="{% url 'skate_delete' skate.id %}">Delete</a>
+      </div>
+    </div>
+
+    <!-- skate photo -->
+    <div>
+      {% for photo in skate.photo_set.all %}
+        <img class="responsive-img card-panel teal lighten-3" src="{{photo.url}}">
+      {% empty %}
+        <div class="card-panel teal lighten-3 center-align">No Photos Uploaded</div>
+      {% endfor %}
+      <form action="{% url 'add_photo' skate.id %}" enctype="multipart/form-data" method="POST" class="card-panel teal lighten-3">
+        {% csrf_token %}
+        <input type="file" name="photo-file">
+        <br><br>
+        <input type="submit" class="btn" value="Upload Photo">
+      </form>
+    </div>
+  </div>
+
+  <div>
+    <!-- new column for maintenance -->
+    <div class="col s12 m7 l8">
+      <div>
+        <!-- maintenance message -->
+        {% if skate.needs_maintenace %}
+        <div class="card-panel teal lighten-4 center-align">
+          <strong>{{ skate.nickname }} maintained within the last 4 weeks. Good job!</strong>
+        </div>
+        {% else %}
+        <div class="card-panel red-text center-align">
+          {{ skate.nickname }} might need maintenance
+        </div>
+        {% endif %}
+      </div>
+
+      <!-- maintenance log -->
+      <div class="card-panel teal lighten-5">
+        <h4>Maintenance Log</h4>
+        <table class="highlight">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Equipment</th>
+              <th>Entry</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for maintenance in skate.maintenance_set.all %}
+            <tr>
+              <td>{{maintenance.date}}</td>
+              <td>{{maintenance.get_equipment_display}}</td>
+              <td>{{maintenance.entry}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <!-- maintenance form -->
+      <div class="card teal lighten-5">
+        <div class="card-content">
+        <form action="{% url 'add_maintenance' skate.id %}" method="post">
+          {% csrf_token %}
+          {{ maintenance_form.as_p }}
+          <input type="submit" class="btn" value="Add Maintenance Entry">
+        </form>
+      </div>
+    </div>
+    </div>
+  </div>
+
+  <!-- skate places -->
+  <div class="col s8 m4 l4" id="assoc-places">
+    <h4 class="teal-text">sk8 here!</h4>
+    {% if skate.places.count %}
+    {% for place in skate.places.all %}
+      <div class="card">
+        <div class="card-content">
+          <h4>{{place.name}}</h4>
+          <table class="striped">
+            <tr><td><strong>Address:</strong></td> <td>{{place.address}}</td></tr>
+            <tr><td><strong>Has Ramps:</strong></td> <td>{{place.has_ramps}}</td></tr>
+            <tr><td><strong>Description:</strong></td> <td>{{place.description}}</td></tr>
+          </table>
+        </div>
+        <div class="card-action">
+          <form action="{% url 'remove_place' skate.id place.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn">Remove</button>
+          </form>
+      </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <h5>Pick somewhere to sk8</h5>
+    {% endif %}
+    </div>
+
+  <div class="col s8 m4 l4" id="all-sk8-places">
+    <h4 class="teal-text">Need some sk8spiration?</h4>
+    {% if places.count %}
+    {% for place in places.all %}
+    <div class="card">
+          <div class="card-content">
+            <h4>{{place.name}}</h4>
+            <table class="striped">
+              <tr><td><strong>Address:</strong></td> <td>{{place.address}}</td></tr>
+              <tr><td><strong>Has Ramps:</strong></td> <td>{{place.has_ramps}}</td></tr>
+              <tr><td><strong>Description:</strong></td> <td>{{place.description}}</td></tr>
+            </table>
+          </div>
+          <div class="card-action">
+            <form action="{% url 'assoc_place' skate.id place.id %}" method="post">
+              {% csrf_token %}
+              <button type="submit" class="btn">Add</button>
+            </form>
+          </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <h5>{{skate.nickname}} Already Sk8d all the Places</h5>
+    {% endif %}
+  </div>
+
+</div>
+<script>
+    const dateEl = document.getElementById('id_date');
+      M.Datepicker.init(dateEl, {
+        format: 'yyyy-mm-dd',
+        defaultDate: new Date(),
+        setDefaultDate: true,
+        autoClose: true
+    });
+
+    const selectEl = document.getElementById('id_equipment');
+      M.FormSelect.init(selectEl);
+</script>
+
+{% endblock %}

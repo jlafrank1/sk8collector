@@ -1,0 +1,49 @@
+/* * {
+  background-color: MediumAquamarine;
+} */
+
+
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  background-color: whitesmoke;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+footer.page-footer {
+  padding-top: 0;
+  text-align: right;
+}
+
+#id_has_ramps {
+  opacity: 1 !important;
+  padding: .5em 1em;
+  position: static !important;
+  pointer-events: auto !important;
+}
+
+
+h1, h2, h3, h4, h5, h6 {
+  text-align: center;
+  font-family: 'Josefin Sans', sans-serif;
+}
+
+#sticky {
+  font-family: 'Josefin Sans', sans-serif;
+}
+
+.card .card-action a:not(.btn):not(.btn-large):not(.btn-small):not(.btn-large):not(.btn-floating) {
+  color: black;
+}
+
+td {
+  vertical-align: top
+}
+
+a {
+  color: teal
+}

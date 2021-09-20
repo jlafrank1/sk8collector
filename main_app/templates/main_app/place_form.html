@@ -1,0 +1,15 @@
+{% extends 'base.html' %} {% block content %}
+
+<form action="" method="post">
+  {% if object %}
+  <h1>Edit <span class="teal-text">{{object.name}}</span></h1>
+  {% else %}
+  <h1>Add a Sk8 Place</h1>
+  {% endif %}
+  {% csrf_token %}
+  <table>
+    {{ form.as_table }}
+  </table>
+  <input type="submit" value="Submit!" class="btn-large" />
+</form>
+{% endblock %}
